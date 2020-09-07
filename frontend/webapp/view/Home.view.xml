@@ -2,10 +2,32 @@
 	controllerName="com.prello.controller.Home"
 	displayBlock="true"
 	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core">
 	<Page
 		id="page"
 		title="{i18n>title}">
-		<content></content>
+		<content>
+			<!-- Login -->
+			<VBox
+				id="login"
+				alignItems="Center"
+				justifyContent="Center"
+				visible="true"
+				class="sapUiSmallMargin">
+				<f:SimpleForm>
+					<f:content>
+						<Label text="Benutzername"/>
+						<Input id="iUsername" submit="onLogin" />
+						<Label text="Passwort" />
+						<Input id="iPassword" type="Password" submit="onLogin" />
+						<Label />
+						<Button text="Anmelden" press="onLogin" type="Accept" />
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
 	</Page>
 </mvc:View>

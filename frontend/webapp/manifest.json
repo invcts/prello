@@ -76,12 +76,23 @@
 					"pattern": "",
 					"name": "home",
 					"target": ["home"]
+				},
+				{
+					"pattern": "overview",
+					"name": "overview",
+					"target": ["overview"]
 				}
 			],
 			"targets": {
 				"home": {
 					"viewName": "Home",
 					"viewId": "home",
+					"viewLevel": 1,
+					"title": "{i18n>title}"
+				},
+				"overview": {
+					"viewName": "Overview",
+					"viewId": "overview",
 					"viewLevel": 1,
 					"title": "{i18n>title}"
 				}

@@ -1,10 +1,10 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller",
+	"com/prello/controller/BaseController",
 	"com/prello/model/formatter"
-], function(Controller, formatter) {
+], function(BaseController, formatter) {
 	"use strict";
 
-	return Controller.extend("com.prello.controller.App", {
+	return BaseController.extend("com.prello.controller.App", {
 
 		formatter: formatter,
 

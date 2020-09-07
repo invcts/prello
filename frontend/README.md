@@ -1,3 +1,3 @@
 ## Prello
 
-Implementation eines Prello-Klons mit OpenUI5.
+Implementation eines Trello-Klons mit OpenUI5.

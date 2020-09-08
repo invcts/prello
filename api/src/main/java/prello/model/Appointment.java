@@ -9,9 +9,11 @@ import javax.persistence.Id;
 @Entity
 public class Appointment {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long apmntID;
+    private Long id;
 
     private String title;
 
@@ -23,12 +25,20 @@ public class Appointment {
 
     private String status;
 
-    public Long getApmntID() {
-        return apmntID;
+    public Appointment() {};
+
+    public Appointment(String title, String description, String dateTime){
+        this.title = title;
+        this.description = description;
+        this.dateTime = dateTime;
     }
 
-    public void setApmntID(Long apmntID) {
-        this.apmntID = apmntID;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long apmntID) {
+        this.id = apmntID;
     }
 
     public String getTitle() {

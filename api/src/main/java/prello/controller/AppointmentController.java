@@ -5,7 +5,7 @@ import prello.exceptions.AppointmentNotFoundException;
 import prello.model.Appointment;
 import prello.repository.AppointmentRepository;
 
-@RequestMapping
+@RequestMapping("appointments")
 @RestController
 public class AppointmentController {
 
@@ -20,7 +20,7 @@ public class AppointmentController {
         return repository.findAll();
     }
 
-    @GetMapping("{apmntID}")
+    @GetMapping("{id}")
     public Appointment getAppointment(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(AppointmentNotFoundException::new);
     }
@@ -28,6 +28,24 @@ public class AppointmentController {
     @PostMapping
     public Appointment addAppointment(@RequestBody Appointment appointment) {
         return repository.save(appointment);
+    }
+
+    @PutMapping("{id}")
+    public Appointment updateAppointment(@PathVariable Long id, @RequestBody Appointment appointment) {
+        Appointment appointmentToUpdate = repository.findById(id).orElseThrow(AppointmentNotFoundException::new);
+
+        appointmentToUpdate.setDateTime(appointment.getDateTime());
+        appointmentToUpdate.setDescription(appointment.getDescription());
+        appointmentToUpdate.setStatus(appointment.getStatus());
+        appointmentToUpdate.setType(appointment.getType());
+
+        return repository.save(appointmentToUpdate);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAppointment(@PathVariable Long id) {
+        repository.findById(id).orElseThrow(AppointmentNotFoundException::new);
+        repository.deleteById(id);
     }
 }
 

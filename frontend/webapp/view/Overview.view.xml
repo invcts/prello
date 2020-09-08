@@ -8,7 +8,8 @@
     <Page showHeader="false">
         <content>
             <VBox class="sapUiSmallMargin" fitContainer="true">
-                <OverflowToolbar height="100%" width="100%">
+                <OverflowToolbar height="100%" width="100%" class="sapUiTinyMarginBottom">
+                    <Image src="/rsz_logo-prello.png" />
                     <ToolbarSpacer/>
                     <Button 
                         id="addNewAppointment" 
@@ -30,10 +31,10 @@
                     appointmentResize="handleAppointmentResize"
                     appointmentCreate="handleAppointmentCreateDnD"
                     moreLinkPress="handleMoreLinkPress"
-                    startDate="{path: '/startDate'}"
                     stickyMode="All"
                     appointments="{path: '/appointments'}">
                     <actions>
+                        <Button id="legendButton" icon="sap-icon://legend" text="Legende" press="handleOpenLegend" tooltip="Legende anzeigen" />
                     </actions>
                     <views>
                         <SinglePlanningCalendarMonthView key="MonthView" title="Monat" />

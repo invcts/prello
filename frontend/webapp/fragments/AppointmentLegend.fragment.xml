@@ -1,0 +1,20 @@
+<core:FragmentDefinition
+		xmlns="sap.m"
+		xmlns:core="sap.ui.core"
+		xmlns:u="sap.ui.unified">
+	<ResponsivePopover
+			placement="Bottom"
+			showHeader="false">
+		<PlanningCalendarLegend
+                appointmentItemsHeader="Terminarten"
+                itemsHeader="Kalender"
+				appointmentItems="{
+					path : 'supportModel>/supportedAppointmentItems',
+					templateShareable: true
+				}">
+			<appointmentItems>
+				<u:CalendarLegendItem text="{supportModel>text}" type="{supportModel>type}" tooltip="{supportModel>text}"/>
+			</appointmentItems>
+		</PlanningCalendarLegend>
+	</ResponsivePopover>
+</core:FragmentDefinition>

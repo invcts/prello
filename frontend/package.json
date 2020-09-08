@@ -4,7 +4,7 @@
   "description": "Trello Clone",
   "private": true,
   "scripts": {
-    "start": "ui5 serve --port 8080 --open index.html",
+    "start": "ui5 serve --port 8081 --open index.html",
     "lint": "eslint webapp",
     "karma": "karma start",
     "karma-ci": "karma start karma-ci.conf.js",

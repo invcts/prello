@@ -7,9 +7,9 @@ sap.ui.define([], function () {
 					return "Meeting";
 				case "Type02":
 					return "Meeting Remote";
-				case "Type03":
+				case "Type05":
 					return "Deadline";
-				case "Type04":
+				case "Type08":
 					return "Projekt";
 				default:
 					return "Unbekannt";

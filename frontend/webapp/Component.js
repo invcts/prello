@@ -27,6 +27,8 @@ sap.ui.define([
 			this.getRouter().initialize();
 
 			this.setModel(models.createMockData());
+
+			this.setModel(models.createSupportedMeetingTypes(), "supportModel");
 		}
 	});
 });

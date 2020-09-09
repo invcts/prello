@@ -2,17 +2,22 @@ package prello.controller;
 
 import org.springframework.web.bind.annotation.*;
 import prello.exceptions.AppointmentNotFoundException;
+import prello.exceptions.UserNotFoundException;
 import prello.model.Appointment;
+import prello.model.User;
 import prello.repository.AppointmentRepository;
+import prello.repository.UserRepository;
 
-@RequestMapping("appointments")
+@RequestMapping("prello")
 @RestController
-public class AppointmentController {
+public class RESTController {
 
     private final AppointmentRepository repository;
+    private final UserRepository userRepository;
 
-    public AppointmentController(AppointmentRepository repository){
+    public RESTController(AppointmentRepository repository, UserRepository userRepository){
         this.repository = repository;
+        this.userRepository = userRepository;
     };
 
     @GetMapping
@@ -30,13 +35,23 @@ public class AppointmentController {
         return repository.save(appointment);
     }
 
+    @PostMapping("/login")
+    public boolean userLogin(@RequestBody User user) {
+        User loginUser = userRepository.findByUsername(user.getUsername());
+        return loginUser.equals(user);
+    }
+    @GetMapping("/user")
+    public Iterable<User> getAllUser() {
+        return userRepository.findAll();
+    }
+
     @PutMapping("{id}")
     public Appointment updateAppointment(@PathVariable Long id, @RequestBody Appointment appointment) {
         Appointment appointmentToUpdate = repository.findById(id).orElseThrow(AppointmentNotFoundException::new);
 
-        appointmentToUpdate.setDateTime(appointment.getDateTime());
+        appointmentToUpdate.setStartTime(appointment.getStartTime());
+        appointmentToUpdate.setEndTime(appointment.getEndTime());
         appointmentToUpdate.setDescription(appointment.getDescription());
-        appointmentToUpdate.setStatus(appointment.getStatus());
         appointmentToUpdate.setType(appointment.getType());
 
         return repository.save(appointmentToUpdate);

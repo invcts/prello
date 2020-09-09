@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import prello.model.Appointment;
+import prello.model.User;
 import prello.repository.AppointmentRepository;
+import prello.repository.UserRepository;
 
 @Configuration
 public class LoadDatabase implements ApplicationListener<ContextRefreshedEvent> {
@@ -16,9 +18,10 @@ public class LoadDatabase implements ApplicationListener<ContextRefreshedEvent> 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(AppointmentRepository repository) {
+    CommandLineRunner initDatabase(AppointmentRepository appointmentRepository, UserRepository userRepository) {
         return args -> {
-            log.info("Initial data: " + repository.save(new Appointment("Abgabe Projekt", "Abgabetermin für dieses Projekt", "Montag 10 Uhr")));
+            log.info("Initial data: " + appointmentRepository.save(new Appointment("Abgabe Projekt", "Abgabetermin für dieses Projekt", "14-09-2020 10:00:00", "14-09-2020 10:00:00", "Type02")));
+            log.info("Initial user-data: " + userRepository.save(new User("user1", "12345678", "Alexander", "Schmidt")));
         };
     }
 

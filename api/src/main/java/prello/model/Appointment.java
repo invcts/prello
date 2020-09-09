@@ -9,8 +9,6 @@ import javax.persistence.Id;
 @Entity
 public class Appointment {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,18 +17,20 @@ public class Appointment {
 
     private String description;
 
-    private String dateTime;
+    private String startTime;
+
+    private String endTime;
 
     private String type;
 
-    private String status;
-
     public Appointment() {};
 
-    public Appointment(String title, String description, String dateTime){
+    public Appointment( String startTime, String endTime, String title, String description, String type){
         this.title = title;
         this.description = description;
-        this.dateTime = dateTime;
+        this.endTime = endTime;
+        this.startTime = startTime;
+        this.type = type;
     }
 
     public Long getId() {
@@ -57,12 +57,12 @@ public class Appointment {
         this.description = description;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setStartTime(String dateTime) {
+        this.startTime = dateTime;
     }
 
     public String getType() {
@@ -73,11 +73,11 @@ public class Appointment {
         this.type = type;
     }
 
-    public String getStatus() {
-        return status;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

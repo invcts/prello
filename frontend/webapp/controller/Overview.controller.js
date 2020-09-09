@@ -254,10 +254,22 @@ sap.ui.define([
 				oStartDate = Fragment.byId("dialogFrag", sStartDate).getDateValue(),
 				oEndDate = Fragment.byId("dialogFrag", sEndDate).getDateValue(),
 				oModel = this.getView().getModel(),
-				sAppointmentPath;
+				sAppointmentPath,
+				oData;
 
 			if (Fragment.byId("dialogFrag", sStartDate).getValueState() !== "Error"
 				&& Fragment.byId("dialogFrag", sEndDate).getValueState() !== "Error") {
+				
+				// Build dataload
+				oData = {
+					title: sTitle,
+					description: sText,
+					type: sType,
+					startDate: oStartDate,
+					endDate: oEndDate
+				}
+
+				console.log(oData);
 
 				if (this.sPath) {
 					sAppointmentPath = this.sPath;

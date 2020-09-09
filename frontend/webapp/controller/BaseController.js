@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"com/prello/model/formatter"
-], function(Controller, formatter) {
+    "com/prello/model/formatter",
+    "sap/m/MessageBox"
+], function(Controller, formatter, MessageBox) {
 	"use strict";
 
 	return Controller.extend("com.prello.controller.BaseController", {
@@ -22,7 +23,17 @@ sap.ui.define([
 
         _setHoursToZero: function (oDate) {
 			oDate.setHours(0, 0, 0, 0);
-		},
+        },
+        
+        handleLogout: function () {
+            MessageBox.confirm("Wirklich abmelden?", {
+                onClose: function (oAction) {
+                    if (oAction === "OK") {
+                        this.getRouter().navTo("home");
+                    }
+                }.bind(this)
+            })
+        },
 
         /**
          * Generate MD5 Hash of a given String

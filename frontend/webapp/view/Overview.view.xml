@@ -16,8 +16,14 @@
                         icon="sap-icon://add-activity" 
                         text="Termin anlegen" 
                         press="handleAppointmentCreate"
-                        type="Accept" 
+                        type="Transparent" 
                         tooltip="Neuen Termin erstellen" />
+                    <Button
+                        id="bLogout"
+                        icon="sap-icon://log"
+                        tooltip="Abmelden"
+                        type="Transparent"
+                        press="handleLogout" />
                 </OverflowToolbar>
                 <SinglePlanningCalendar
                     id="SPC1"

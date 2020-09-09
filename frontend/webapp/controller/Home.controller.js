@@ -13,7 +13,15 @@ sap.ui.define([
 		},
 
 		onLogin: function () {
-			console.log(this.genMD5("haha"));
+			var sUsername = this.byId("iUsername").getValue().trim();
+			var sPassword = this.genMD5(this.byId("iPassword").getValue());
+			var data = {
+				username: sUsername,
+				password: sPassword
+			};
+
+			console.log(data);
+			
 			console.log(this.getModel());
 
 			this.getRouter().navTo("overview");

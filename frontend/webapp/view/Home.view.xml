@@ -8,8 +8,13 @@
 	xmlns:core="sap.ui.core">
 	<Page
 		id="page"
-		title="{i18n>title}">
+		showHeader="false"
+		backgroundDesign="Transparent">
 		<content>
+			<OverflowToolbar class="sapUiTinyMarginBottom">
+				<Image src="/rsz_logo-prello.png" />
+				<ToolbarSpacer/>
+			</OverflowToolbar>
 			<!-- Login -->
 			<VBox
 				id="login"

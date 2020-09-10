@@ -24,6 +24,10 @@ sap.ui.define([
 			
 			console.log(this.getModel());
 
+			// Reset Inputfields
+			this.byId("iUsername").setValue("");
+			this.byId("iPassword").setValue("");
+
 			this.getRouter().navTo("overview");
 		}
 	});

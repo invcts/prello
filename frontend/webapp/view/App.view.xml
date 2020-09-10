@@ -3,6 +3,6 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
 	<Shell backgroundImage="background.jpg">
-		<App id="app" backgroundImage="homebackground.jpg" backgroundOpacity="0.2"/>
+		<App id="app" backgroundImage="homebackground.jpg" backgroundOpacity="0.6"/>
 	</Shell>
 </mvc:View>

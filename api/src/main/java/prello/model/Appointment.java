@@ -1,15 +1,15 @@
 package prello.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
+@Table(name = "appointment")
 public class Appointment {
 
     @Id
+    @Column(name = "appointment_id", columnDefinition = "appointment_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -23,6 +23,14 @@ public class Appointment {
 
     private String type;
 
+    @ManyToMany
+    @JoinTable(
+            name= "user_appointment",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_ID"),
+            inverseJoinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "appointment_id")
+    )
+    private List<User> member;
+
     public Appointment() {};
 
     public Appointment( String startTime, String endTime, String title, String description, String type){
@@ -32,6 +40,7 @@ public class Appointment {
         this.startTime = startTime;
         this.type = type;
     }
+
 
     public Long getId() {
         return id;

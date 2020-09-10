@@ -3,6 +3,7 @@ package prello.controller;
 import org.springframework.web.bind.annotation.*;
 import prello.exceptions.AppointmentNotFoundException;
 import prello.exceptions.UserNotFoundException;
+import prello.exceptions.WrongPasswordException;
 import prello.model.Appointment;
 import prello.model.User;
 import prello.repository.AppointmentRepository;
@@ -36,9 +37,14 @@ public class RESTController {
     }
 
     @PostMapping("/login")
-    public boolean userLogin(@RequestBody User user) {
+    public User userLogin(@RequestBody User user) {
         User loginUser = userRepository.findByUsername(user.getUsername());
-        return loginUser.equals(user);
+        if (loginUser == null) throw new UserNotFoundException();
+        if (loginUser.equals(user)){
+            return loginUser;
+        } else {
+            throw new WrongPasswordException();
+        }
     }
     @GetMapping("/user")
     public Iterable<User> getAllUser() {

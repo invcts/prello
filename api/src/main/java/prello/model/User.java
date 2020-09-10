@@ -1,31 +1,59 @@
 package prello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name ="user")
 public class User {
 
     @Id
+    @Column(name = "UserID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    public User() {
-    }
+    @Column(name = "email")
+    private String email;
 
-    public User(String userName, String password, String firstName, String lastName) {
+    @Column(name = "is_admin")
+    private boolean isAdmin;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name= "user_appointments",
+            joinColumns = @JoinColumn(name = "UserID"),
+            inverseJoinColumns = @JoinColumn(name = "ApmntID")
+    )
+    @JsonIgnore
+    private List<Appointment> appointments;
+
+
+    public User(String firstName, String lastName, String userName, String password,  String email, boolean isAdmin) {
         this.username = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.isAdmin = isAdmin;
+    }
+
+    public User() {
+
     }
 
     public void setId(Long id) {
@@ -78,5 +106,29 @@ public class User {
         User user = (User) o;
         return Objects.equals(this.username, user.username)
                 && Objects.equals(this.password, user.password);
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

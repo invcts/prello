@@ -1,15 +1,20 @@
 package prello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
 @Entity
-@Table(name = "appointment")
+@Table(name = "appointments")
 public class Appointment {
 
     @Id
-    @Column(name = "appointment_id", columnDefinition = "appointment_id")
+    @Column(name = "ApmntID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -17,23 +22,26 @@ public class Appointment {
 
     private String description;
 
-    private String startTime;
+    @Column(name = "start_time")
+    private Timestamp startTime;
 
-    private String endTime;
+    @Column(name = "end_time")
+    private Timestamp endTime;
 
     private String type;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name= "user_appointment",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_ID"),
-            inverseJoinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "appointment_id")
+            name= "user_appointments",
+            joinColumns = @JoinColumn(name = "UserID"),
+            inverseJoinColumns = @JoinColumn(name = "ApmntID")
     )
+    @JsonIgnore
     private List<User> member;
 
     public Appointment() {};
 
-    public Appointment( String startTime, String endTime, String title, String description, String type){
+    public Appointment(Timestamp startTime, Timestamp endTime, String title, String description, String type){
         this.title = title;
         this.description = description;
         this.endTime = endTime;
@@ -66,11 +74,11 @@ public class Appointment {
         this.description = description;
     }
 
-    public String getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String dateTime) {
+    public void setStartTime(Timestamp dateTime) {
         this.startTime = dateTime;
     }
 
@@ -82,11 +90,27 @@ public class Appointment {
         this.type = type;
     }
 
-    public String getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
+    }
+
+    public List<User> getMember() {
+        return member;
+    }
+
+    public void setMember(List<User> member) {
+        this.member = member;
+    }
+
+    public void addMember(User user) {
+        this.member.add(user);
+    }
+
+    public void removeMember(User user){
+        this.member.remove(user);
     }
 }

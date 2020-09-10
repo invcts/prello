@@ -85,19 +85,19 @@ CREATE TABLE `teams` (
 
 CREATE TABLE `user` (
   `UserID` varchar(30) NOT NULL,
-  `Name` text NOT NULL,
-  `SurName` text NOT NULL,
-  `UserName` varchar(50) NOT NULL,
-  `Passwort` varchar(100) NOT NULL,
-  `Email` varchar(100) NOT NULL,
-  `IsAdmin` tinyint(1) NOT NULL
+  `firstName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `isAdmin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`UserID`, `Name`, `SurName`, `UserName`, `Passwort`, `Email`, `IsAdmin`) VALUES
+INSERT INTO `user` (`UserID`, `firstName`, `lastName`, `username`, `password`, `email`, `isAdmin`) VALUES
 ('1', 'Enzo', 'Schröder', 'eschroeder', 'ac9d2cb8ecdf3e9319756edeec6ff502', 'enzo.schroeder@cpro-ips.com', 1),
 ('2', 'Alexander', 'Schmidt', 'aschmidt', '482c811da5d5b4bc6d497ffa98491e38', 'alex.schmidt@email.com', 0);
 

@@ -13,7 +13,7 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public Iterable<User> findAllUser(Long id) {
+    /*public Iterable<User> findAllUser(Long id) {
         return
-    }
+    }*/
 }

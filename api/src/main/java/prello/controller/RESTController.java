@@ -46,6 +46,12 @@ public class RESTController {
             throw new WrongPasswordException();
         }
     }
+
+    @PostMapping("/user/app")
+    public Iterable<Appointment> getAppForUser(@RequestBody User user) {
+        User currentUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+        return currentUser.getAppointments();
+    }
     @GetMapping("/user")
     public Iterable<User> getAllUser() {
         return userRepository.findAll();

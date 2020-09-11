@@ -67,7 +67,7 @@ public class RESTController {
 
     @PostMapping("/appointment/add")
     public Appointment addNewAppointment(@RequestBody Appointment appointment) {
-       repository.save(appointment);
+
        appointment.addMember(currentUser);
        return repository.save(appointment);
 

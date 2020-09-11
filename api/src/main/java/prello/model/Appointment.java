@@ -1,6 +1,8 @@
 package prello.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import prello.service.JsonAppointmentDeserializer;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "appointments")
+@JsonDeserialize(using = JsonAppointmentDeserializer.class)
 public class Appointment {
 
     @Id
@@ -21,10 +24,8 @@ public class Appointment {
 
     private String description;
 
-    @Column(name = "start_time")
     private Timestamp startTime;
 
-    @Column(name = "end_time")
     private Timestamp endTime;
 
     private String type;
@@ -40,11 +41,11 @@ public class Appointment {
 
     public Appointment() {};
 
-    public Appointment(Timestamp startTime, Timestamp endTime, String title, String description, String type){
+    public Appointment(String startTime, String endTime, String title, String description, String type){
         this.title = title;
         this.description = description;
-        this.endTime = endTime;
-        this.startTime = startTime;
+        this.endTime = parseStringToTimeStamp(endTime);
+        this.startTime = parseStringToTimeStamp(startTime);
         this.type = type;
     }
 
@@ -111,5 +112,10 @@ public class Appointment {
 
     public void removeMember(User user){
         this.member.remove(user);
+    }
+
+    private Timestamp parseStringToTimeStamp(String time) {
+        Timestamp ts = Timestamp.valueOf(time);
+        return ts;
     }
 }

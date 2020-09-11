@@ -9,6 +9,7 @@ import prello.model.User;
 import prello.repository.AppointmentRepository;
 import prello.repository.UserRepository;
 
+@CrossOrigin("http://localhost:8090/")
 @RequestMapping("prello")
 @RestController
 public class RESTController {
@@ -64,7 +65,7 @@ public class RESTController {
         return currentUser.getAppointments();
     }
 
-    @PostMapping("/user/add")
+    @PostMapping("/appointment/add")
     public Appointment addNewAppointment(@RequestBody Appointment appointment) {
        repository.save(appointment);
        appointment.addMember(currentUser);
@@ -76,7 +77,12 @@ public class RESTController {
         return userRepository.findAll();
     }
 
-    @PutMapping("{id}")
+    @PostMapping("/user/add")
+    public User addNewUser(@RequestBody User user) {
+        return userRepository.save(user);
+    }
+
+    @PostMapping("/appointment/{id}")
     public Appointment updateAppointment(@PathVariable Long id, @RequestBody Appointment appointment) {
         Appointment appointmentToUpdate = repository.findById(id).orElseThrow(AppointmentNotFoundException::new);
 

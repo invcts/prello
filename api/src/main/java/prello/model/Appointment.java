@@ -32,8 +32,8 @@ public class Appointment {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name= "user_appointments",
-            joinColumns = @JoinColumn(name = "UserID"),
-            inverseJoinColumns = @JoinColumn(name = "ApmntID")
+            joinColumns = @JoinColumn(name = "ApmntID"),
+            inverseJoinColumns = @JoinColumn(name = "UserID")
     )
     @JsonIgnore
     private List<User> member = new LinkedList();

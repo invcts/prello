@@ -3,6 +3,7 @@ package prello.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,14 +34,9 @@ public class User {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name= "user_appointments",
-            joinColumns = @JoinColumn(name = "UserID"),
-            inverseJoinColumns = @JoinColumn(name = "ApmntID")
-    )
+    @ManyToMany(mappedBy = "member", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new LinkedList<>();
 
 
     public User(String firstName, String lastName, String userName, String password,  String email, boolean isAdmin) {
@@ -130,5 +126,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
     }
 }

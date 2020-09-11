@@ -15,6 +15,7 @@ public class RESTController {
 
     private final AppointmentRepository repository;
     private final UserRepository userRepository;
+    private User currentUser;
 
     public RESTController(AppointmentRepository repository, UserRepository userRepository){
         this.repository = repository;
@@ -41,16 +42,34 @@ public class RESTController {
         User loginUser = userRepository.findByUsername(user.getUsername());
         if (loginUser == null) throw new UserNotFoundException();
         if (loginUser.equals(user)){
+            currentUser = loginUser;
             return loginUser;
         } else {
             throw new WrongPasswordException();
         }
     }
 
+    @PostMapping("/logout")
+    public boolean userLogout() {
+        if (currentUser != null) {
+            currentUser = null;
+            return true;
+        }
+        return false;
+    }
+
     @PostMapping("/user/app")
     public Iterable<Appointment> getAppForUser(@RequestBody User user) {
         User currentUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         return currentUser.getAppointments();
+    }
+
+    @PostMapping("/user/add")
+    public Appointment addNewAppointment(@RequestBody Appointment appointment) {
+       repository.save(appointment);
+       appointment.addMember(currentUser);
+       return repository.save(appointment);
+
     }
     @GetMapping("/user")
     public Iterable<User> getAllUser() {

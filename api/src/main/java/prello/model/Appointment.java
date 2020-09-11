@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -30,14 +29,14 @@ public class Appointment {
 
     private String type;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name= "user_appointments",
             joinColumns = @JoinColumn(name = "UserID"),
             inverseJoinColumns = @JoinColumn(name = "ApmntID")
     )
     @JsonIgnore
-    private List<User> member;
+    private List<User> member = new LinkedList();
 
     public Appointment() {};
 

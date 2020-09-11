@@ -12,6 +12,8 @@ import prello.model.User;
 import prello.repository.AppointmentRepository;
 import prello.repository.UserRepository;
 
+import java.sql.Timestamp;
+
 @Configuration
 public class LoadDatabase implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -20,9 +22,10 @@ public class LoadDatabase implements ApplicationListener<ContextRefreshedEvent> 
     @Bean
     CommandLineRunner initDatabase(AppointmentRepository appointmentRepository, UserRepository userRepository) {
         return args -> {
-            log.info("Initial data: " + appointmentRepository.save(new Appointment("Abgabe Projekt", "Abgabetermin für dieses Projekt", "14-09-2020 10:00:00", "14-09-2020 10:00:00", "Type02")));
-            log.info("Initial user-data: " + userRepository.save(new User("user1", "12345678", "Alexander", "Schmidt")));
-        };
+            /*log.info("Initial data: " + appointmentRepository.save(new Appointment(new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()),"Abgabe Projekt", "Abgabetermin für dieses Projekt",  "Type02")));
+            log.info("Initial user-data: " + userRepository.save(new User("Alexander", "Schmidt","aschmidt", "482c811da5d5b4bc6d497ffa98491e38",  "alex.schmidt@email.com", false)));
+            log.info("Initial user-data: Enzo" + userRepository.save(new User("Enzo", "Schröder", "eschroeder", "ac9d2cb8ecdf3e9319756edeec6ff502", "enzo.schroeder@cpro-ips.com", true)));
+        */};
     }
 
     @Override

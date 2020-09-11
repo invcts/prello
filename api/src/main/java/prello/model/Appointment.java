@@ -1,15 +1,22 @@
 package prello.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import prello.service.JsonAppointmentDeserializer;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
 
 
 @Entity
+@Table(name = "appointments")
+@JsonDeserialize(using = JsonAppointmentDeserializer.class)
 public class Appointment {
 
     @Id
+    @Column(name = "ApmntID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -17,21 +24,31 @@ public class Appointment {
 
     private String description;
 
-    private String startTime;
+    private Timestamp startTime;
 
-    private String endTime;
+    private Timestamp endTime;
 
     private String type;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name= "user_appointments",
+            joinColumns = @JoinColumn(name = "ApmntID"),
+            inverseJoinColumns = @JoinColumn(name = "UserID")
+    )
+    @JsonIgnore
+    private List<User> member = new LinkedList();
+
     public Appointment() {};
 
-    public Appointment( String startTime, String endTime, String title, String description, String type){
+    public Appointment(String startTime, String endTime, String title, String description, String type){
         this.title = title;
         this.description = description;
-        this.endTime = endTime;
-        this.startTime = startTime;
+        this.endTime = parseStringToTimeStamp(endTime);
+        this.startTime = parseStringToTimeStamp(startTime);
         this.type = type;
     }
+
 
     public Long getId() {
         return id;
@@ -57,11 +74,11 @@ public class Appointment {
         this.description = description;
     }
 
-    public String getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String dateTime) {
+    public void setStartTime(Timestamp dateTime) {
         this.startTime = dateTime;
     }
 
@@ -73,11 +90,32 @@ public class Appointment {
         this.type = type;
     }
 
-    public String getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
+    }
+
+    public List<User> getMember() {
+        return member;
+    }
+
+    public void setMember(List<User> member) {
+        this.member = member;
+    }
+
+    public void addMember(User user) {
+        this.member.add(user);
+    }
+
+    public void removeMember(User user){
+        this.member.remove(user);
+    }
+
+    private Timestamp parseStringToTimeStamp(String time) {
+        Timestamp ts = Timestamp.valueOf(time);
+        return ts;
     }
 }

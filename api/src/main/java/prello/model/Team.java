@@ -1,14 +1,13 @@
 package prello.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "teams")
 public class Team {
 
     @Id
+    @Column(name ="TeamID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

@@ -164,3 +164,5 @@ app.post("/deleteAppointment", async (req, res) => {
         });
     });
 });
+
+module.exports.app = app;

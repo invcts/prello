@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"./model/models"
-], function(UIComponent, Device, models) {
+	"./model/models",
+	"sap/ui/model/json/JSONModel"
+], function(UIComponent, Device, models, JSONModel) {
 	"use strict";
 
 	return UIComponent.extend("com.prello.Component", {
@@ -26,7 +27,7 @@ sap.ui.define([
 			// create the views based on the url/hash
 			this.getRouter().initialize();
 
-			this.setModel(models.createMockData());
+			this.setModel(new JSONModel());
 
 			this.setModel(models.createSupportedMeetingTypes(), "supportModel");
 		}

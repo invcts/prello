@@ -11,6 +11,8 @@ sap.ui.define([
 
 		onInit: function () {
 			this.getView().byId("SPC1").setStartDate(new Date());
+
+			this.getAppointments();
 		},
 
 		handleAppointmentSelect: function (oEvent) {
@@ -106,9 +108,9 @@ sap.ui.define([
 				oContext = this._oDetailsPopover.getBindingContext();
 				oContextObject = oContext.getObject();
 				sTitle = oContextObject.title;
-				sText = oContextObject.text;
-				oStartDate = oContextObject.startDate;
-				oEndDate = oContextObject.endDate;
+				sText = oContextObject.description;
+				oStartDate = oContextObject.startTime;
+				oEndDate = oContextObject.endTime;
 				sType = oContextObject.type;
 			} else {
 				sTitle = "";
@@ -264,45 +266,74 @@ sap.ui.define([
 				oData = {
 					title: sTitle,
 					description: sText,
+					endTime: oEndDate,
+					startTime: oStartDate,
 					type: sType,
-					startDate: oStartDate,
-					endDate: oEndDate
+					userid: this.getModel("user").oData.userID
 				}
 
-				console.log(oData);
+				var xhr = new XMLHttpRequest();
+				var self = this;
 
 				if (this.sPath) {
-					sAppointmentPath = this.sPath;
-					oModel.setProperty(sAppointmentPath + "/title", sTitle);
-					oModel.setProperty(sAppointmentPath + "/text", sText);
-					oModel.setProperty(sAppointmentPath + "/type", sType);
-					oModel.setProperty(sAppointmentPath + "/startDate", oStartDate);
-					oModel.setProperty(sAppointmentPath + "/endDate", oEndDate);
-				} else {
-					oModel.getData().appointments.push({
-						title: sTitle,
-						text: sText,
-						type: sType,
-						startDate: oStartDate,
-						endDate: oEndDate
-					});
-				}
+					oData.apmntid = oModel.getProperty(this.sPath + "/apmntID");
 
-				oModel.updateBindings();
+					xhr.open('POST', "http://localhost:4000/updateAppointment");
+					xhr.setRequestHeader("Content-Type", "application/json;charset=UTF8");
+					xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+					xhr.send(JSON.stringify(oData));
+					xhr.onreadystatechange = function () {
+						if (this.readyState == 4 && this.status == 202) {
+							var response = this.response;
+							response = JSON.parse(response);
+
+							self.getAppointments();
+						}
+					}
+				} else {
+					xhr.open('POST', "http://localhost:4000/createAppointment");
+					xhr.setRequestHeader("Content-Type", "application/json;charset=UTF8");
+					xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+					xhr.send(JSON.stringify(oData));
+					xhr.onreadystatechange = function () {
+						if (this.readyState == 4 && this.status == 202) {
+							var response = this.response;
+							response = JSON.parse(response);
+
+							self.getAppointments();
+						}
+					}
+				}
 
 				this._oNewAppointmentDialog.close();
 			}
 		},
 
 		handlePopoverDeleteButton: function () {
-			var oModel = this.getView().getModel(),
-				oAppointments = oModel.getData().appointments,
-				oAppointment = this._oDetailsPopover._getBindingContext().getObject();
+			var oAppointment = this._oDetailsPopover._getBindingContext().getObject();
+			var apmntID = oAppointment.apmntID;
+			var userID = this.getOwnerComponent().oModels.user.oData.userID;
+			var data = {
+				apmntid: apmntID,
+				userid: userID
+			};
 
 			this._oDetailsPopover.close();
 
-			oAppointments.splice(oAppointments.indexOf(oAppointment), 1);
-			oModel.updateBindings();
+			var xhr = new XMLHttpRequest();
+			var self = this;
+			xhr.open('POST', "http://localhost:4000/deleteAppointment");
+			xhr.setRequestHeader("Content-Type", "application/json;charset=UTF8");
+			xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+			xhr.send(JSON.stringify(data));
+			xhr.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 202) {
+					var response = this.response;
+					response = JSON.parse(response);
+
+					self.getAppointments();
+				}
+			}
 		}
 	});
 });

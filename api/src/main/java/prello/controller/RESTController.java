@@ -38,6 +38,7 @@ public class RESTController {
         return repository.save(appointment);
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public User userLogin(@RequestBody User user) {
         User loginUser = userRepository.findByUsername(user.getUsername());

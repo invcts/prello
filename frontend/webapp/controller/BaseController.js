@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
     "com/prello/model/formatter",
-    "sap/m/MessageBox"
-], function(Controller, formatter, MessageBox) {
+    "sap/m/MessageBox",
+    "sap/ui/model/json/JSONModel"
+], function(Controller, formatter, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("com.prello.controller.BaseController", {
@@ -33,6 +34,30 @@ sap.ui.define([
                     }
                 }.bind(this)
             })
+        },
+
+        getAppointments: function () {
+            var xhr = new XMLHttpRequest();
+            var self = this;
+            var userid = this.getOwnerComponent().oModels.user.oData.userID;
+			xhr.open('GET', "http://localhost:4000/appointments?user=" + userid);
+			xhr.setRequestHeader("Content-Type", "application/json;charset=UTF8");
+			xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+			xhr.send();
+			xhr.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+					var response = this.response;
+					response = JSON.parse(response);
+                    
+                    response.forEach((e, i) => {
+                        e.startTime = new Date(e.startTime);
+                        e.endTime = new Date(e.endTime);
+                    })
+
+					// set appointments model
+                    self.getOwnerComponent().setModel(new JSONModel({appointments: response}));
+				}
+			}
         },
 
         /**

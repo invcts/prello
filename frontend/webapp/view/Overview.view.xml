@@ -49,11 +49,11 @@
                     <appointments>
                         <unified:CalendarAppointment
                             title= "{title}"
-                            text= "{text}"
+                            text= "{description}"
                             type= "{type}"
                             icon= "{icon}"
-                            startDate= "{startDate}"
-                            endDate= "{endDate}">
+                            startDate= "{startTime}"
+                            endDate= "{endTime}">
                         </unified:CalendarAppointment>
                     </appointments>
                 </SinglePlanningCalendar>

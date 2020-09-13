@@ -21,17 +21,17 @@
 			<Label
 					text="Beschreibung"
 					labelFor="moreInfo"/>
-			<Text id="moreInfo" text="{text}"/>
+			<Text id="moreInfo" text="{description}"/>
 			<Label text="Von" labelFor="startDate"/>
 			<Text
 					text="{
-						path: 'startDate',
+						path: 'startTime',
 						formatter: '.formatter.date'
 					}"/>
 			<Label text="Bis" labelFor="endDate"/>
 			<Text
 					text="{
-						path: 'endDate',
+						path: 'endTime',
 						formatter: '.formatter.date'
 					}"/>
 			<Label text="Terminart" labelFor="appType"/>

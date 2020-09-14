@@ -40,6 +40,8 @@ sap.ui.define([
 					self.byId("iUsername").setValue("");
 					self.byId("iPassword").setValue("");
 
+					self.getAppointments();
+
 					self.getRouter().navTo("overview");
 				}
 				if (this.readyState == 4 && this.status == 401) {

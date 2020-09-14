@@ -10,9 +10,20 @@ sap.ui.define([
 		formatter: formatter,
 
 		onInit: function () {
+			var auth = false;
+
+			if (this.getOwnerComponent().oModels.user) {
+				auth = true;
+			}
+
 			this.getView().byId("SPC1").setStartDate(new Date());
 
-			this.getAppointments();
+			if (auth) {
+				this.getAppointments();
+			}
+			else {
+				this.getRouter().navTo("home");
+			}
 		},
 
 		handleAppointmentSelect: function (oEvent) {

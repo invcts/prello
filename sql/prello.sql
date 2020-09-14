@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 10. Sep 2020 um 10:51
+-- Erstellungszeit: 14. Sep 2020 um 15:42
 -- Server-Version: 10.4.14-MariaDB
 -- PHP-Version: 7.4.9
 
@@ -28,54 +28,21 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `appointments` (
-  `ApmntID` varchar(30) NOT NULL,
-  `Title` varchar(50) NOT NULL,
-  `Description` text NOT NULL,
-  `startTime` datetime NOT NULL DEFAULT current_timestamp(),
-  `endDate` datetime NOT NULL DEFAULT current_timestamp(),
-  `Type` varchar(50) NOT NULL
+  `apmntID` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `description` text NOT NULL,
+  `startTime` datetime NOT NULL,
+  `endTime` datetime NOT NULL,
+  `type` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `appointments`
 --
 
-INSERT INTO `appointments` (`ApmntID`, `Title`, `Description`, `startTime`, `endDate`, `Type`) VALUES
-('1', 'AE Projekt 5 Abgabe', 'Vorstellung des Projekts und Upload des Sourcecodes', '2020-09-14 10:00:00', '2020-09-10 14:00:00', 'Type05');
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `appointment_teams`
---
-
-CREATE TABLE `appointment_teams` (
-  `ApmntID` varchar(30) NOT NULL,
-  `TeamID` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `teamleader`
---
-
-CREATE TABLE `teamleader` (
-  `TeamID` varchar(30) NOT NULL,
-  `UserID` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `teams`
---
-
-CREATE TABLE `teams` (
-  `TeamID` varchar(30) NOT NULL,
-  `Name` text NOT NULL,
-  `Description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `appointments` (`apmntID`, `title`, `description`, `startTime`, `endTime`, `type`) VALUES
+(1, 'Projektabgabe', 'Abgabe AE-Projekt 5', '2020-09-14 10:00:00', '2020-09-14 15:00:00', 'Type05'),
+(8, 'Cooles Projekt', 'Testprojekt über mehrere Tage', '2020-09-15 07:00:00', '2020-09-25 08:00:00', 'Type08');
 
 -- --------------------------------------------------------
 
@@ -84,22 +51,22 @@ CREATE TABLE `teams` (
 --
 
 CREATE TABLE `user` (
-  `UserID` varchar(30) NOT NULL,
-  `Name` text NOT NULL,
-  `SurName` text NOT NULL,
-  `UserName` varchar(50) NOT NULL,
-  `Passwort` varchar(100) NOT NULL,
-  `Email` varchar(100) NOT NULL,
-  `IsAdmin` tinyint(1) NOT NULL
+  `userID` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `surname` text NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` text NOT NULL,
+  `isAdmin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`UserID`, `Name`, `SurName`, `UserName`, `Passwort`, `Email`, `IsAdmin`) VALUES
-('1', 'Enzo', 'Schröder', 'eschroeder', 'ac9d2cb8ecdf3e9319756edeec6ff502', 'enzo.schroeder@cpro-ips.com', 1),
-('2', 'Alexander', 'Schmidt', 'aschmidt', '482c811da5d5b4bc6d497ffa98491e38', 'alex.schmidt@email.com', 0);
+INSERT INTO `user` (`userID`, `name`, `surname`, `username`, `password`, `email`, `isAdmin`) VALUES
+(1, 'Enzo', 'Schröder', 'eschroeder', 'ac9d2cb8ecdf3e9319756edeec6ff502', 'Enzo.Schroeder@cpro-ips.com', 1),
+(2, 'Alexander', 'Schmidt', 'aschmidt', '8c405ae1daf2575440a037284f934421', 'alex.schmidt@email.com', 0);
 
 -- --------------------------------------------------------
 
@@ -108,28 +75,17 @@ INSERT INTO `user` (`UserID`, `Name`, `SurName`, `UserName`, `Passwort`, `Email`
 --
 
 CREATE TABLE `user_appointments` (
-  `UserID` varchar(30) NOT NULL,
-  `ApmntID` varchar(30) NOT NULL
+  `userID` int(11) NOT NULL,
+  `apmntID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `user_appointments`
 --
 
-INSERT INTO `user_appointments` (`UserID`, `ApmntID`) VALUES
-('1', '1'),
-('2', '1');
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `user_teams`
---
-
-CREATE TABLE `user_teams` (
-  `UserID` varchar(30) NOT NULL,
-  `TeamID` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `user_appointments` (`userID`, `apmntID`) VALUES
+(1, 1),
+(1, 8);
 
 --
 -- Indizes der exportierten Tabellen
@@ -139,43 +95,35 @@ CREATE TABLE `user_teams` (
 -- Indizes für die Tabelle `appointments`
 --
 ALTER TABLE `appointments`
-  ADD PRIMARY KEY (`ApmntID`);
-
---
--- Indizes für die Tabelle `appointment_teams`
---
-ALTER TABLE `appointment_teams`
-  ADD PRIMARY KEY (`ApmntID`,`TeamID`);
-
---
--- Indizes für die Tabelle `teamleader`
---
-ALTER TABLE `teamleader`
-  ADD PRIMARY KEY (`TeamID`,`UserID`);
-
---
--- Indizes für die Tabelle `teams`
---
-ALTER TABLE `teams`
-  ADD PRIMARY KEY (`TeamID`);
+  ADD PRIMARY KEY (`apmntID`);
 
 --
 -- Indizes für die Tabelle `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`UserID`) USING BTREE;
+  ADD PRIMARY KEY (`userID`);
 
 --
 -- Indizes für die Tabelle `user_appointments`
 --
 ALTER TABLE `user_appointments`
-  ADD PRIMARY KEY (`UserID`,`ApmntID`);
+  ADD PRIMARY KEY (`userID`,`apmntID`);
 
 --
--- Indizes für die Tabelle `user_teams`
+-- AUTO_INCREMENT für exportierte Tabellen
 --
-ALTER TABLE `user_teams`
-  ADD PRIMARY KEY (`UserID`,`TeamID`);
+
+--
+-- AUTO_INCREMENT für Tabelle `appointments`
+--
+ALTER TABLE `appointments`
+  MODIFY `apmntID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT für Tabelle `user`
+--
+ALTER TABLE `user`
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -12,7 +12,7 @@ sap.ui.define([
 		onInit: function () {
 			var auth = false;
 
-			if (this.getOwnerComponent().oModels.user) {
+			if (this.getOwnerComponent().oModels.user.username) {
 				auth = true;
 			}
 

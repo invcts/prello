@@ -30,6 +30,7 @@ sap.ui.define([
             MessageBox.confirm("Wirklich abmelden?", {
                 onClose: function (oAction) {
                     if (oAction === "OK") {
+                        this.getOwnerComponent().setModel(null, "user");
                         this.getRouter().navTo("home");
                     }
                 }.bind(this)
